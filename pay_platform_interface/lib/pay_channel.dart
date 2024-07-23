@@ -48,6 +48,17 @@ class PayMethodChannel extends PayPlatform {
         as bool;
   }
 
+  /// Determines whether a user can pay with a real card with the provider in the configuration.
+  ///
+  /// Completes with a [PlatformException] if the native call fails or otherwise
+  /// returns a boolean for the [paymentConfiguration] specified.
+  @override
+  Future<bool> userCanPayWithRealCard(PaymentConfiguration paymentConfiguration) async {
+    return await _channel.invokeMethod(
+            'userCanPayWithRealCard', jsonEncode(await paymentConfiguration.parameterMap()))
+        as bool;
+  }
+
   /// Shows the payment selector to complete the payment operation.
   ///
   /// Shows the payment selector with the [paymentItems] and

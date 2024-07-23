@@ -28,6 +28,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 private const val METHOD_CHANNEL_NAME = "plugins.flutter.io/pay_channel"
 
 private const val METHOD_USER_CAN_PAY = "userCanPay"
+private const val METHOD_USER_CAN_PAY_WITH_REAL_CARD = "userCanPayWithRealCard"
 private const val METHOD_SHOW_PAYMENT_SELECTOR = "showPaymentSelector"
 
 /**
@@ -65,6 +66,7 @@ class PayMethodCallHandler private constructor(
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             METHOD_USER_CAN_PAY -> googlePayHandler.isReadyToPay(result, call.arguments()!!)
+            METHOD_USER_CAN_PAY_WITH_REAL_CARD -> googlePayHandler.isReadyToPay(result, call.arguments()!!, true)
             METHOD_SHOW_PAYMENT_SELECTOR -> {
                 val arguments = call.arguments<Map<String, Any>>()!!
                 googlePayHandler.loadPaymentData(

@@ -25,6 +25,13 @@ abstract class PayPlatform {
   /// on a given [paymentConfiguration].
   Future<bool> userCanPay(PaymentConfiguration paymentConfiguration);
 
+  /// Determines whether the caller can make a payment with a real card with a given
+  /// configuration.
+  ///
+  /// Returns a [Future] that resolves to a boolean value with the result based
+  /// on a given [paymentConfiguration].
+  Future<bool> userCanPayWithRealCard(PaymentConfiguration paymentConfiguration);
+
   /// Triggers the action to show the payment selector to complete a payment
   /// with the configuration and a list of [PaymentItem] that help determine
   /// the price elements to show in the payment selector.

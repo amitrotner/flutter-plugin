@@ -22,6 +22,7 @@ import UIKit
 public class PayPlugin: NSObject, FlutterPlugin {
   private static let methodChannelName = "plugins.flutter.io/pay_channel"
   private let methodUserCanPay = "userCanPay"
+  private let methodUserCanPayWithRealCard = "userCanPayWithRealCard"
   private let methodShowPaymentSelector = "showPaymentSelector"
   
   private let paymentHandler = PaymentHandler()
@@ -39,6 +40,9 @@ public class PayPlugin: NSObject, FlutterPlugin {
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
     case methodUserCanPay:
+      result(paymentHandler.canMakePayments(call.arguments as! String))
+
+    case methodUserCanPayWithRealCard:
       result(paymentHandler.canMakePayments(call.arguments as! String))
       
     case methodShowPaymentSelector:

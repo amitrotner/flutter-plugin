@@ -56,6 +56,20 @@ class Pay {
     return Future.value(false);
   }
 
+  /// Determines whether a user can pay with a real card with the selected [provider].
+  ///
+  /// This method wraps the [userCanPayWithRealCard] method in the platform interface. It
+  /// makes sure that the [provider] exists and is available in the platform
+  /// running the logic.
+  Future<bool> userCanPayWithRealCard(PayProvider provider) async {
+    await throwIfProviderIsNotDefined(provider);
+    if (supportedProviders[defaultTargetPlatform]!.contains(provider)) {
+      return _payPlatform.userCanPayWithRealCard(_configurations[provider]!);
+    }
+
+    return Future.value(false);
+  }
+
   /// Shows the payment selector to initiate a payment process.
   ///
   /// This method wraps the [showPaymentSelector] method in the platform
