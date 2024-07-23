@@ -62,7 +62,7 @@ class PaymentHandler: NSObject {
   ///   this payment.
   /// - returns: A boolean with the result: whether the use can make payments.
   func canMakePaymentsWithRealCard(_ paymentConfiguration: String) -> Bool {
-    if let supportedNetworks = PaymentHandler.supportedNetworks(from: paymentConfiguration), let merchantCapabilities = paymentConfiguration["merchantCapabilities"] as? Array<String> {
+    if let supportedNetworks = PaymentHandler.supportedNetworks(from: paymentConfiguration) as? [PKPaymentNetwork]?, merchantCapabilities = paymentConfiguration["merchantCapabilities"] as? Array<String> {
       let requestMerchantCapabilities = PKMerchantCapability(merchantCapabilities.compactMap { capabilityString in
         PKMerchantCapability.fromString(capabilityString)
       })
