@@ -55,6 +55,22 @@ class PaymentHandler: NSObject {
       return false
     }
   }
+
+  /// Determines whether a user can make a payment with the selected provider.
+  ///
+  /// - parameter paymentConfiguration: A JSON string with the configuration to execute
+  ///   this payment.
+  /// - returns: A boolean with the result: whether the use can make payments.
+  func canMakePaymentsWithRealCard(_ paymentConfiguration: String) -> Bool {
+    if let supportedNetworks = PaymentHandler.supportedNetworks(from: paymentConfiguration), let merchantCapabilities = paymentConfiguration["merchantCapabilities"] as? Array<String> {
+      let requestMerchantCapabilities = PKMerchantCapability(merchantCapabilities.compactMap { capabilityString in
+        PKMerchantCapability.fromString(capabilityString)
+      })
+      return PKPaymentAuthorizationController.canMakePayments(usingNetworks: supportedNetworks, capabilities: requestMerchantCapabilities)
+    } else {
+      return false
+    }
+  }
   
   /// Initiates the payment process with the selected payment provider.
   ///

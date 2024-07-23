@@ -43,7 +43,7 @@ public class PayPlugin: NSObject, FlutterPlugin {
       result(paymentHandler.canMakePayments(call.arguments as! String))
 
     case methodUserCanPayWithRealCard:
-      result(paymentHandler.canMakePayments(call.arguments as! String))
+      result(paymentHandler.canMakePaymentsWithRealCard(call.arguments as! String))
       
     case methodShowPaymentSelector:
       let arguments = call.arguments as! [String: Any]
