@@ -120,16 +120,17 @@ class GooglePayHandler(private val activity: Activity) :
 
         // Construct profile and client
 
+        var modifiedPaymentProfileString: String? = null
         if (shouldEnforceExistingPaymentMethodRequired) {
             val isReadyToPayRequestJsonObject = JSONObject(paymentProfileString);
             isReadyToPayRequestJsonObject.put("existingPaymentMethodRequired", true);
-            paymentProfileString = isReadyToPayRequestJsonObject.toString();
+            modifiedPaymentProfileString = isReadyToPayRequestJsonObject.toString();
         }
 
-        val paymentProfile = buildPaymentProfile(paymentProfileString)
+        val paymentProfile = buildPaymentProfile(modifiedPaymentProfileString ?: paymentProfileString)
         val client = paymentClientForProfile(paymentProfile)
 
-        val rtpRequest = IsReadyToPayRequest.fromJson(paymentProfileString)
+        val rtpRequest = IsReadyToPayRequest.fromJson(modifiedPaymentProfileString ?: paymentProfileString)
 
         val task = client.isReadyToPay(rtpRequest)
         task.addOnCompleteListener { completedTask ->
