@@ -119,14 +119,17 @@ class GooglePayHandler(private val activity: Activity) :
     fun isReadyToPay(result: Result, paymentProfileString: String, shouldEnforceExistingPaymentMethodRequired: Boolean = false) {
 
         // Construct profile and client
+
+        if (shouldEnforceExistingPaymentMethodRequired) {
+            val isReadyToPayRequestJsonObject = JSONObject(paymentProfileString);
+            isReadyToPayRequestJsonObject.put("existingPaymentMethodRequired", true);
+            paymentProfileString = isReadyToPayRequestJsonObject.toString();
+        }
+
         val paymentProfile = buildPaymentProfile(paymentProfileString)
         val client = paymentClientForProfile(paymentProfile)
 
         val rtpRequest = IsReadyToPayRequest.fromJson(paymentProfileString)
-
-        if (shouldEnforceExistingPaymentMethodRequired) {
-            rtpRequest.existingPaymentMethodRequired = true
-        }
 
         val task = client.isReadyToPay(rtpRequest)
         task.addOnCompleteListener { completedTask ->
